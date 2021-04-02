@@ -30,11 +30,11 @@ class WifiPresenceAccessory {
 
     fs.watch(this.presenceFile, { persistent: false }, (type, filename) => {
       if (type === 'change') {
-	// Sleep for 5 seconds to fix
-	//    Occupied statue: 0
-	//    Occupied statue: 1
-	// pattern
-	msleep(5000)
+        // Sleep for 5 seconds to fix
+        //    Occupied statue: 0
+        //    Occupied statue: 1
+        // pattern
+        msleep(5000)
         this.isOccupied()
       }
     })
@@ -44,8 +44,9 @@ class WifiPresenceAccessory {
     const accessory = this
     co(function* () {
       const content = yield accessory.readPresenceFile()
-      const allMACs = content.trim().split('\n')
-      const status = _.intersection(allMACs, accessory.mac).length > 0 ? OCCUPIED : NON_OCCUPIED
+//      const allMACs = content.trim().split('\n')
+//      const status = _.intersection(allMACs, accessory.mac).length > 0 ? OCCUPIED : NON_OCCUPIED
+        const status = content.indexOf(accessory.mac)!= -1 ? OCCUPIED : NON_OCCUPIED
       accessory.log(`Occupied status: ${status}`)
 
       if (accessory.currentStatus !== status) {
